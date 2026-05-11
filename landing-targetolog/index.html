@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artem Volkov — Таргетолог</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --black: #111110;
+            --dark: #1A1A19;
+            --gray: #C9C9C9;
+            --white: #F5F5F3;
+            --accent: #C8FF00;
+            --font: 'Space Grotesk', system-ui, sans-serif;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--black);
+            color: var(--white);
+            font-family: var(--font);
+            font-weight: 300;
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        /* CURSOR */
+        .cursor {
+            width: 8px; height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s, opacity 0.2s;
+        }
+        .cursor-ring {
+            width: 36px; height: 36px;
+            border: 1px solid rgba(200, 255, 0, 0.4);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transform: translate(-50%, -50%);
+            transition: transform 0.08s linear, width 0.25s, height 0.25s;
+        }
+
+        /* NAV */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 24px 56px;
+        }
+
+        .nav-logo {
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--white);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 11px;
+            font-weight: 400;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.4);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover { color: var(--white); }
+
+        .nav-cta {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--black);
+            background: var(--accent);
+            padding: 11px 22px;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        .nav-cta:hover { opacity: 0.85; }
+
+        /* HERO */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 0 56px 88px;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 60% 60% at 70% 35%, rgba(200,255,0,0.04) 0%, transparent 70%),
+                radial-gradient(ellipse 80% 80% at 50% 50%, #1e1d1b 0%, var(--black) 80%);
+        }
+
+        .hero-ghost {
+            position: absolute;
+            top: 50%;
+            right: 64px;
+            transform: translateY(-55%);
+            font-size: clamp(160px, 22vw, 260px);
+            font-weight: 700;
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255,255,255,0.05);
+            line-height: 1;
+            pointer-events: none;
+            user-select: none;
+            letter-spacing: -0.05em;
+        }
+
+        .hero-eyebrow {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 11px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.35);
+            margin-bottom: 28px;
+        }
+
+        .hero-eyebrow::before {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 1px;
+            background: var(--accent);
+            flex-shrink: 0;
+        }
+
+        .hero-title {
+            position: relative;
+            font-size: clamp(58px, 9.5vw, 130px);
+            font-weight: 700;
+            line-height: 0.92;
+            letter-spacing: -0.04em;
+            text-transform: uppercase;
+            max-width: 960px;
+        }
+
+        .hero-title em {
+            font-style: normal;
+            color: var(--accent);
+        }
+
+        .hero-bottom {
+            position: relative;
+            margin-top: 52px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 40px;
+        }
+
+        .hero-desc {
+            font-size: 15px;
+            font-weight: 300;
+            line-height: 1.75;
+            color: rgba(255,255,255,0.45);
+            max-width: 360px;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 56px;
+        }
+
+        .stat-item { text-align: right; }
+
+        .stat-num {
+            font-size: clamp(28px, 3vw, 40px);
+            font-weight: 700;
+            color: var(--white);
+            line-height: 1;
+            letter-spacing: -0.02em;
+        }
+
+        .stat-label {
+            font-size: 10px;
+            font-weight: 400;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.3);
+            margin-top: 6px;
+        }
+
+        /* TICKER */
+        .ticker {
+            background: var(--accent);
+            padding: 14px 0;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .ticker-track {
+            display: inline-flex;
+            animation: tick 22s linear infinite;
+        }
+
+        .ticker-item {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--black);
+            padding: 0 44px;
+        }
+
+        .ticker-item::after { content: '✦'; margin-left: 44px; }
+
+        @keyframes tick {
+            from { transform: translateX(0); }
+            to   { transform: translateX(-50%); }
+        }
+
+        /* ABOUT */
+        .about {
+            padding: 128px 56px;
+            display: grid;
+            grid-template-columns: 5fr 7fr;
+            gap: 80px;
+            align-items: start;
+        }
+
+        .about-title {
+            font-size: clamp(40px, 5.5vw, 72px);
+            font-weight: 700;
+            line-height: 1;
+            letter-spacing: -0.03em;
+            text-transform: uppercase;
+        }
+
+        .about-title .outline {
+            -webkit-text-stroke: 1px var(--white);
+            color: transparent;
+        }
+
+        .about-text {
+            font-size: 16px;
+            font-weight: 300;
+            line-height: 1.8;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 48px;
+        }
+
+        .about-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.6);
+            border: 1px solid rgba(255,255,255,0.12);
+            padding: 8px 16px;
+        }
+
+        /* SERVICES */
+        .services {
+            padding: 0 56px 128px;
+        }
+
+        .section-head {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            padding-bottom: 22px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            margin-bottom: 0;
+        }
+
+        .sec-num {
+            font-size: 11px;
+            font-weight: 400;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent);
+        }
+
+        .sec-title {
+            font-size: clamp(26px, 3.5vw, 44px);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: rgba(255,255,255,0.07);
+        }
+
+        .svc-card {
+            background: var(--black);
+            padding: 52px 40px;
+            transition: background 0.3s;
+        }
+
+        .svc-card:hover { background: var(--dark); }
+
+        .svc-n {
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 36px;
+        }
+
+        .svc-name {
+            font-size: 22px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: -0.01em;
+            margin-bottom: 16px;
+            line-height: 1.1;
+        }
+
+        .svc-desc {
+            font-size: 14px;
+            font-weight: 300;
+            line-height: 1.75;
+            color: rgba(255,255,255,0.4);
+        }
+
+        /* CASES */
+        .cases { background: var(--dark); }
+
+        .cases-head {
+            padding: 80px 56px 0;
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            padding-bottom: 22px;
+        }
+
+        .cases-list { list-style: none; }
+
+        .case-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 32px 56px;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            transition: background 0.2s;
+        }
+
+        .case-row:hover { background: rgba(255,255,255,0.025); }
+        .case-row:hover .arrow { transform: translateX(5px); color: var(--accent); }
+
+        .case-l { display: flex; align-items: center; gap: 32px; }
+
+        .case-idx {
+            font-size: 11px;
+            color: rgba(255,255,255,0.2);
+            letter-spacing: 0.1em;
+            width: 28px;
+            flex-shrink: 0;
+        }
+
+        .case-name {
+            font-size: clamp(18px, 2.4vw, 28px);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: -0.01em;
+        }
+
+        .case-tag-row { display: flex; gap: 8px; margin-top: 6px; }
+
+        .ctag {
+            font-size: 9px;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.35);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 4px 10px;
+        }
+
+        .case-r { display: flex; align-items: center; gap: 52px; }
+
+        .c-metric { text-align: right; }
+
+        .c-val {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--accent);
+            line-height: 1;
+            letter-spacing: -0.01em;
+        }
+
+        .c-label {
+            font-size: 9px;
+            font-weight: 400;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.3);
+            margin-top: 4px;
+        }
+
+        .arrow {
+            font-size: 20px;
+            color: rgba(255,255,255,0.25);
+            transition: transform 0.2s, color 0.2s;
+        }
+
+        /* RESULTS */
+        .results { padding: 128px 56px; }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+            background: rgba(255,255,255,0.07);
+            margin-top: 0;
+        }
+
+        .r-item { background: var(--black); padding: 52px 40px; }
+
+        .r-num {
+            font-size: clamp(48px, 5.5vw, 76px);
+            font-weight: 700;
+            line-height: 1;
+            letter-spacing: -0.04em;
+            color: var(--white);
+        }
+
+        .r-num span { color: var(--accent); }
+
+        .r-label {
+            font-size: 13px;
+            font-weight: 300;
+            color: rgba(255,255,255,0.4);
+            margin-top: 14px;
+            line-height: 1.5;
+        }
+
+        /* CONTACT */
+        .contact {
+            padding: 128px 56px;
+            background: var(--dark);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: start;
+        }
+
+        .ct-title {
+            font-size: clamp(48px, 7vw, 96px);
+            font-weight: 700;
+            line-height: 0.92;
+            letter-spacing: -0.04em;
+            text-transform: uppercase;
+        }
+
+        .ct-title em { font-style: normal; color: var(--accent); }
+
+        .ct-sub {
+            font-size: 15px;
+            font-weight: 300;
+            color: rgba(255,255,255,0.4);
+            line-height: 1.75;
+            margin-top: 28px;
+            max-width: 360px;
+        }
+
+        .ct-links { margin-top: 52px; display: flex; flex-direction: column; gap: 18px; }
+
+        .ct-link {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 14px;
+            font-weight: 400;
+            color: rgba(255,255,255,0.4);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .ct-link:hover { color: var(--white); }
+
+        .ct-icon {
+            width: 36px; height: 36px;
+            border: 1px solid rgba(255,255,255,0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+            transition: border-color 0.2s, color 0.2s;
+        }
+
+        .ct-link:hover .ct-icon { border-color: var(--accent); color: var(--accent); }
+
+        .contact-form { display: flex; flex-direction: column; }
+
+        .f-group {
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding: 20px 0;
+        }
+
+        .f-label {
+            font-size: 9px;
+            font-weight: 500;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.25);
+            margin-bottom: 10px;
+        }
+
+        .f-input, .f-textarea {
+            width: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-family: var(--font);
+            font-size: 16px;
+            font-weight: 300;
+            color: var(--white);
+            resize: none;
+        }
+
+        .f-textarea { min-height: 80px; }
+        .f-input::placeholder, .f-textarea::placeholder { color: rgba(255,255,255,0.15); }
+
+        .f-submit {
+            margin-top: 36px;
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            background: var(--accent);
+            color: var(--black);
+            font-family: var(--font);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            border: none;
+            padding: 18px 36px;
+            cursor: none;
+            transition: opacity 0.2s;
+            align-self: flex-start;
+        }
+
+        .f-submit:hover { opacity: 0.85; }
+
+        /* FOOTER */
+        footer {
+            padding: 28px 56px;
+            background: var(--black);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .f-copy {
+            font-size: 11px;
+            font-weight: 300;
+            color: rgba(255,255,255,0.2);
+            letter-spacing: 0.06em;
+        }
+
+        .f-links { display: flex; gap: 28px; }
+
+        .f-links a {
+            font-size: 10px;
+            font-weight: 400;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.25);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .f-links a:hover { color: var(--white); }
+
+        /* REVEAL */
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            nav { padding: 20px 24px; }
+            .nav-links { display: none; }
+            .hero { padding: 0 24px 64px; }
+            .hero-ghost { display: none; }
+            .hero-stats { display: none; }
+            .about { grid-template-columns: 1fr; gap: 40px; padding: 80px 24px; }
+            .services { padding: 0 24px 80px; }
+            .services-grid { grid-template-columns: 1fr; }
+            .cases-head { padding: 60px 24px 0; }
+            .case-row { padding: 24px; flex-direction: column; align-items: flex-start; gap: 16px; }
+            .results { padding: 80px 24px; }
+            .results-grid { grid-template-columns: repeat(2, 1fr); }
+            .contact { grid-template-columns: 1fr; gap: 40px; padding: 80px 24px; }
+            footer { padding: 24px; flex-direction: column; gap: 16px; text-align: center; }
+            body { cursor: auto; }
+            .cursor, .cursor-ring { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+    <a href="#" class="nav-logo">Artem Volkov</a>
+    <ul class="nav-links">
+        <li><a href="#about">Про мене</a></li>
+        <li><a href="#services">Послуги</a></li>
+        <li><a href="#cases">Кейси</a></li>
+        <li><a href="#contact">Контакт</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Обговорити проект</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-ghost">15</div>
+
+    <span class="hero-eyebrow">Таргетолог · Платна реклама</span>
+    <h1 class="hero-title">
+        Реклама,<br>
+        що<br>
+        <em>продає</em>
+    </h1>
+    <div class="hero-bottom">
+        <p class="hero-desc">
+            Запускаю рекламу в Instagram, Facebook<br>
+            та Telegram. Результат — не кліки, а гроші<br>
+            в касі клієнта.
+        </p>
+        <div class="hero-stats">
+            <div class="stat-item">
+                <div class="stat-num">₴180M+</div>
+                <div class="stat-label">Бюджет під управлінням</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">×4.2</div>
+                <div class="stat-label">Середній ROAS</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">60+</div>
+                <div class="stat-label">Проектів</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+    <div class="ticker-track">
+        <span class="ticker-item">Meta Ads</span>
+        <span class="ticker-item">Google Ads</span>
+        <span class="ticker-item">Telegram Ads</span>
+        <span class="ticker-item">TikTok Ads</span>
+        <span class="ticker-item">Таргетована реклама</span>
+        <span class="ticker-item">Лідогенерація</span>
+        <span class="ticker-item">ROAS × 4+</span>
+        <span class="ticker-item">A/B тести</span>
+        <span class="ticker-item">Meta Ads</span>
+        <span class="ticker-item">Google Ads</span>
+        <span class="ticker-item">Telegram Ads</span>
+        <span class="ticker-item">TikTok Ads</span>
+        <span class="ticker-item">Таргетована реклама</span>
+        <span class="ticker-item">Лідогенерація</span>
+        <span class="ticker-item">ROAS × 4+</span>
+        <span class="ticker-item">A/B тести</span>
+    </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+    <h2 class="about-title reveal">
+        Цифри<br>
+        <span class="outline">говорять</span><br>
+        за мене
+    </h2>
+    <div>
+        <p class="about-text reveal">
+            3 роки в таргеті. Працював з e-commerce, онлайн-школами, локальним бізнесом
+            та b2b-сервісами. Не просто налаштовую кампанії — будую систему,
+            яка масштабується без втрати рентабельності. Аналізую воронку повністю:
+            від першого дотику до оплати.
+        </p>
+        <div class="about-tags reveal">
+            <span class="tag">Meta Ads</span>
+            <span class="tag">Google Ads</span>
+            <span class="tag">Telegram Ads</span>
+            <span class="tag">TikTok Ads</span>
+            <span class="tag">A/B тести</span>
+            <span class="tag">Аналітика</span>
+            <span class="tag">Lookalike</span>
+            <span class="tag">Ретаргетинг</span>
+        </div>
+    </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+    <div class="section-head">
+        <span class="sec-num">01 — Послуги</span>
+        <h2 class="sec-title">Що я роблю</h2>
+    </div>
+    <div class="services-grid">
+        <div class="svc-card reveal">
+            <div class="svc-n">01</div>
+            <h3 class="svc-name">Запуск з нуля</h3>
+            <p class="svc-desc">Аудит продукту, аналіз конкурентів, опрацювання аудиторій, створення креативів, налаштування пікселя і перший запуск з прогнозом результатів.</p>
+        </div>
+        <div class="svc-card reveal">
+            <div class="svc-n">02</div>
+            <h3 class="svc-name">Масштабування</h3>
+            <p class="svc-desc">Збільшую бюджет без втрати ROAS. Знаходжу нові аудиторії, тестую формати, знижую CPA через постійні ітерації.</p>
+        </div>
+        <div class="svc-card reveal">
+            <div class="svc-n">03</div>
+            <h3 class="svc-name">Аудит кампаній</h3>
+            <p class="svc-desc">Розберу поточні кампанії, знайду слабкі місця і дам чіткий план виправлень. Звіт з конкретними діями, без води.</p>
+        </div>
+    </div>
+</section>
+
+<!-- CASES -->
+<section class="cases" id="cases">
+    <div class="cases-head">
+        <span class="sec-num">02 — Кейси</span>
+        <h2 class="sec-title">Вибрані проекти</h2>
+    </div>
+    <ul class="cases-list">
+        <li class="case-row reveal">
+            <div class="case-l">
+                <span class="case-idx">01</span>
+                <div>
+                    <div class="case-name">Онлайн-школа англійської</div>
+                    <div class="case-tag-row">
+                        <span class="ctag">Meta Ads</span>
+                        <span class="ctag">Ed-tech</span>
+                    </div>
+                </div>
+            </div>
+            <div class="case-r">
+                <div class="c-metric">
+                    <div class="c-val">×5.1</div>
+                    <div class="c-label">ROAS</div>
+                </div>
+                <div class="c-metric">
+                    <div class="c-val">−62%</div>
+                    <div class="c-label">Вартість ліда</div>
+                </div>
+                <span class="arrow">→</span>
+            </div>
+        </li>
+        <li class="case-row reveal">
+            <div class="case-l">
+                <span class="case-idx">02</span>
+                <div>
+                    <div class="case-name">Магазин одягу</div>
+                    <div class="case-tag-row">
+                        <span class="ctag">Meta Ads</span>
+                        <span class="ctag">E-commerce</span>
+                    </div>
+                </div>
+            </div>
+            <div class="case-r">
+                <div class="c-metric">
+                    <div class="c-val">₴2.4M</div>
+                    <div class="c-label">Виручка за місяць</div>
+                </div>
+                <div class="c-metric">
+                    <div class="c-val">×3.8</div>
+                    <div class="c-label">ROAS</div>
+                </div>
+                <span class="arrow">→</span>
+            </div>
+        </li>
+        <li class="case-row reveal">
+            <div class="case-l">
+                <span class="case-idx">03</span>
+                <div>
+                    <div class="case-name">Фітнес-студія</div>
+                    <div class="case-tag-row">
+                        <span class="ctag">Telegram Ads</span>
+                        <span class="ctag">Local</span>
+                    </div>
+                </div>
+            </div>
+            <div class="case-r">
+                <div class="c-metric">
+                    <div class="c-val">340</div>
+                    <div class="c-label">Заявок за 2 тиж.</div>
+                </div>
+                <div class="c-metric">
+                    <div class="c-val">₴180</div>
+                    <div class="c-label">Ціна заявки</div>
+                </div>
+                <span class="arrow">→</span>
+            </div>
+        </li>
+        <li class="case-row reveal">
+            <div class="case-l">
+                <span class="case-idx">04</span>
+                <div>
+                    <div class="case-name">B2B SaaS-сервіс</div>
+                    <div class="case-tag-row">
+                        <span class="ctag">TikTok Ads</span>
+                        <span class="ctag">B2B</span>
+                    </div>
+                </div>
+            </div>
+            <div class="case-r">
+                <div class="c-metric">
+                    <div class="c-val">×4.7</div>
+                    <div class="c-label">ROAS</div>
+                </div>
+                <div class="c-metric">
+                    <div class="c-val">+280%</div>
+                    <div class="c-label">Зростання підписок</div>
+                </div>
+                <span class="arrow">→</span>
+            </div>
+        </li>
+    </ul>
+</section>
+
+<!-- RESULTS -->
+<section class="results" id="results">
+    <div class="section-head" style="margin-bottom: 0;">
+        <span class="sec-num">03 — Результати</span>
+        <h2 class="sec-title">У цифрах</h2>
+    </div>
+    <div class="results-grid">
+        <div class="r-item reveal">
+            <div class="r-num">60<span>+</span></div>
+            <div class="r-label">Проектів запущено з нуля</div>
+        </div>
+        <div class="r-item reveal">
+            <div class="r-num">180<span>M</span></div>
+            <div class="r-label">Гривень рекламного бюджету</div>
+        </div>
+        <div class="r-item reveal">
+            <div class="r-num">×4.2</div>
+            <div class="r-label">Середній ROAS по всіх проектах</div>
+        </div>
+        <div class="r-item reveal">
+            <div class="r-num">3<span>р</span></div>
+            <div class="r-label">Досвіду в таргетованій рекламі</div>
+        </div>
+    </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+    <div>
+        <h2 class="ct-title reveal">
+            Давайте<br>
+            <em>працювати</em><br>
+            разом
+        </h2>
+        <p class="ct-sub reveal">
+            Розкажіть про проект — відповім протягом кількох годин та запропоную перший крок.
+        </p>
+        <div class="ct-links reveal">
+            <a href="https://t.me/artemvolkov" class="ct-link">
+                <span class="ct-icon">✈</span>
+                @artemvolkov в Telegram
+            </a>
+            <a href="mailto:hi@artemvolkov.com" class="ct-link">
+                <span class="ct-icon">@</span>
+                hi@artemvolkov.com
+            </a>
+        </div>
+    </div>
+    <form class="contact-form reveal" onsubmit="handleSubmit(event)">
+        <div class="f-group">
+            <div class="f-label">Ім'я</div>
+            <input type="text" class="f-input" placeholder="Ваше ім'я" required>
+        </div>
+        <div class="f-group">
+            <div class="f-label">Контакт</div>
+            <input type="text" class="f-input" placeholder="Telegram або email" required>
+        </div>
+        <div class="f-group">
+            <div class="f-label">Проект</div>
+            <textarea class="f-textarea" placeholder="Коротко про завдання та бюджет"></textarea>
+        </div>
+        <button type="submit" class="f-submit">
+            Надіслати заявку →
+        </button>
+    </form>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <span class="f-copy">© 2026 Artem Volkov. Таргетолог.</span>
+    <div class="f-links">
+        <a href="#">Instagram</a>
+        <a href="#">Telegram</a>
+        <a href="#">TikTok</a>
+    </div>
+</footer>
+
+<script>
+    // Custom cursor
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => {
+        mx = e.clientX; my = e.clientY;
+        cursor.style.left = mx + 'px';
+        cursor.style.top = my + 'px';
+    });
+
+    function animRing() {
+        rx += (mx - rx) * 0.12;
+        ry += (my - ry) * 0.12;
+        ring.style.left = rx + 'px';
+        ring.style.top = ry + 'px';
+        requestAnimationFrame(animRing);
+    }
+    animRing();
+
+    document.querySelectorAll('a, button').forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            cursor.style.width = '12px';
+            cursor.style.height = '12px';
+            ring.style.width = '56px';
+            ring.style.height = '56px';
+        });
+        el.addEventListener('mouseleave', () => {
+            cursor.style.width = '8px';
+            cursor.style.height = '8px';
+            ring.style.width = '36px';
+            ring.style.height = '36px';
+        });
+    });
+
+    // Scroll reveal
+    const revealObs = new IntersectionObserver(entries => {
+        entries.forEach((e, i) => {
+            if (e.isIntersecting) {
+                setTimeout(() => e.target.classList.add('visible'), i * 80);
+                revealObs.unobserve(e.target);
+            }
+        });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+    // Nav background on scroll
+    const nav = document.querySelector('nav');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 60) {
+            nav.style.background = 'rgba(17,17,16,0.92)';
+            nav.style.backdropFilter = 'blur(12px)';
+        } else {
+            nav.style.background = 'transparent';
+            nav.style.backdropFilter = 'none';
+        }
+    });
+
+    // Form submit
+    function handleSubmit(e) {
+        e.preventDefault();
+        const btn = e.target.querySelector('.f-submit');
+        btn.textContent = 'Заявку надіслано ✓';
+        btn.style.background = '#fff';
+        btn.disabled = true;
+    }
+
+    // Parallax ghost number
+    const ghost = document.querySelector('.hero-ghost');
+    if (ghost) {
+        window.addEventListener('scroll', () => {
+            ghost.style.transform = `translateY(calc(-55% + ${window.scrollY * 0.15}px))`;
+        });
+    }
+</script>
+
+</body>
+</html>
