@@ -1,0 +1,12 @@
+# Секреты и переменные окружения
+.env
+.env.local
+.env.*
+env/
+
+# Зависимости
+node_modules/
+
+# Системные файлы
+.DS_Store
+Thumbs.db
