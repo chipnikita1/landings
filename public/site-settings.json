@@ -1,0 +1,10 @@
+{
+  "paymentLinks": {
+    "base": "https://web.tribute.tg/s/10nq",
+    "withAdLaunch": "#lead"
+  },
+  "pixel": {
+    "enabled": false,
+    "metaPixelId": ""
+  }
+}
