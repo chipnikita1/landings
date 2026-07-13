@@ -1,7 +1,8 @@
 {
   "paymentLinks": {
     "base": "https://web.tribute.tg/s/10nq",
-    "withAdLaunch": "https://ru.pinterest.com/search/pins/?q=%D0%BA%D0%BD%D0%BE%D0%BF%D0%BA%D0%B8%20%D0%B4%D0%B8%D0%B7%D0%B0%D0%B9%D0%BD&rs=ac&len=6&source_id=ac_M042a2m4&eq=%D0%BA%D0%BD%D0%BE%D0%BF%D0%BA%D0%B8&etslf=5356"
+    "withAdLaunch": "https://ru.pinterest.com/search/pins/?q=%D0%BA%D0%BD%D0%BE%D0%BF%D0%BA%D0%B8%20%D0%B4%D0%B8%D0%B7%D0%B0%D0%B9%D0%BD&rs=ac&len=6&source_id=ac_M042a2m4&eq=%D0%BA%D0%BD%D0%BE%D0%BF%D0%BA%D0%B8&etslf=5356",
+    "heroSticky": "https://ru.pinterest.com/search/pins/?q=%D0%BA%D0%BD%D0%BE%D0%BF%D0%BA%D0%B8%20%D0%B4%D0%B8%D0%B7%D0%B0%D0%B9%D0%BD&rs=ac&len=6&source_id=ac_M042a2m4&eq=%D0%BA%D0%BD%D0%BE%D0%BF%D0%BA%D0%B8&etslf=5356"
   },
   "pixel": {
     "enabled": false,
