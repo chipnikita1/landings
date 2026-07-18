@@ -4,7 +4,7 @@
     "withAdLaunch": "https://secure.wayforpay.com/button/b872bb1c1ff27"
   },
   "pixel": {
-    "enabled": false,
-    "metaPixelId": ""
+    "enabled": true,
+    "metaPixelId": "1008798338795895"
   }
 }
